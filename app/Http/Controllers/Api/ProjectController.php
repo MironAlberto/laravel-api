@@ -24,13 +24,24 @@ class ProjectController extends Controller
     }
 
     public function show(Project $project)
-    {
-        return response()->json([
-            'code' => 200,
-            'message' => 'success',
-            'results' => [
-                'projects' => $projects
-            ]
-        ]);
+    {   
+        $project = Project::with('type', 'technologies');
+
+        if ($project != null){
+            return response()->json([
+                'code' => 200,
+                'message' => 'success',
+                'results' => [
+                    'project' => $project
+                ]
+            ]);
+        }
+        else {
+            return response()->json([
+                'code' => 404,
+                'message' => 'error',
+                'results' => null
+            ]);
+        }
     }
 }
